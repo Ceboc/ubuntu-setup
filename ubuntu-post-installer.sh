@@ -48,7 +48,7 @@ conda install matplotlib matplotlib-base mpl_sample_data
 
 # Instalación y configuración de Julia
 printf "${YELLOW}Instalación de JULIA${NC}\N"
-wget https://julialang-s3.julialang.org/bin/linux/x64/1.5/julia-1.5.3-linux-x86_64.tar.gz
+wget https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.1-linux-x86_64.tar.gz
 tar -xzf julia-1.* -C $HOME
 mv $HOME/julia-1.* $HOME/julia
 echo "#**** JULIA PATH ****"
@@ -66,7 +66,7 @@ sudo miktexsetup --shared=yes finish
 # Instalación de Asymptote
 # requiere compilación
 printf "${YELLOW}Compilación e instalación de ASYMPTOTE${NC}\N"
-wget https://netactuate.dl.sourceforge.net/project/asymptote/2.69/asymptote-2.69.src.tgz
+wget https://managedway.dl.sourceforge.net/project/asymptote/2.70/asymptote-2.70.src.tgz
 tar -xzf asymptote-2.* -C $HOME
 mv asymptote-2.* asymptote
 cd $HOME/asymptote
@@ -146,5 +146,8 @@ sudo apt install gimp inkscape thunderbird-locale-es
 sudo add-apt-repository ppa:papirus/papirus
 sudo apt-get update
 sudo apt-get install papirus-icon-theme
+
+
+
 
 
