@@ -23,7 +23,8 @@ packages=(
 	libgsl-dev
 	libglm-dev
 	git
-	htop)
+	htop
+	ffmpeg)
 sudo apt install ${packages[@]} -y
 
 
@@ -31,11 +32,14 @@ sudo apt install ${packages[@]} -y
 # Hay que desgargar antes el archivo comprimido 
 # desde https://www.oracle.com/mx/jaja/technologies/javase-jdk11-downloads.html
 # Requiere la autenticación con una cuenta de Oracle, se debe hacer manualmente
-printf "${YELLOW}Instalación de JAVA JDK 11${NC}\N"
-sudo add-apt-repository ppa:linuxuprising/java -y
-sudo mkdir -p /var/cache/oracle-jdk11-installer-local
-sudo cp jdk-11.* /var/cache/oracle-jdk11-installer-local
-sudo apt install oracle-java11-installer-local
+#printf "${YELLOW}Instalación de JAVA JDK 11${NC}\N"
+#sudo add-apt-repository ppa:linuxuprising/java -y
+#sudo mkdir -p /var/cache/oracle-jdk11-installer-local
+#sudo cp jdk-11.* /var/cache/oracle-jdk11-installer-local
+#sudo apt install oracle-java11-installer-local
+
+printf "${YELLOW}Instalación de JAVA${NC}\N"
+sudo apt install -y default-jdk
 
 # Instalación y configuración de Python
 printf "${YELLOW}Instalación de PYTHON${NC}\N"
@@ -48,7 +52,7 @@ conda install matplotlib matplotlib-base mpl_sample_data
 
 # Instalación y configuración de Julia
 printf "${YELLOW}Instalación de JULIA${NC}\N"
-wget https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.1-linux-x86_64.tar.gz
+wget https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-1.6.3-linux-x86_64.tar.gz
 tar -xzf julia-1.* -C $HOME
 mv $HOME/julia-1.* $HOME/julia
 echo "#**** JULIA PATH ****"
@@ -62,16 +66,17 @@ echo "deb http://miktex.org/download/ubuntu focal universe" | sudo tee /etc/apt/
 sudo apt-get update
 sudo apt-get install miktex
 sudo miktexsetup --shared=yes finish
+sudo initexmf --admin --set-config-value [MPM]AutoInstall=1
 
 # Instalación de Asymptote
 # requiere compilación
 printf "${YELLOW}Compilación e instalación de ASYMPTOTE${NC}\N"
-wget https://managedway.dl.sourceforge.net/project/asymptote/2.70/asymptote-2.70.src.tgz
+wget https://netactuate.dl.sourceforge.net/project/asymptote/2.70/asymptote-2.70.src.tgz
 tar -xzf asymptote-2.* -C $HOME
 mv asymptote-2.* asymptote
 cd $HOME/asymptote
 ./configure --prefix=/usr
-make
+make -j 8
 sudo make install
 cd $HOME/Descargas
 
@@ -101,13 +106,14 @@ printf "${YELLOW}Instalación de MATLAB${NC}\N"
 unzip -X -K matlab_* -d matlab
 cd matlab
 printf "${CYAN}Siga instrucciones de instalación{NC}\N"
+xhost +SI:localuser:root
 sudo ./install
 cd $HOME/Descargas
 
 # Instalación de MATHEMATICA
 # Requiere haber antes descargado el script .sh
 printf "${YELLOW}Instalación de MATHEMATICA${NC}\N" 
-sudo bash Mathematica_* -auto
+sudo bash Mathematica_*
 
 # Instalación de SPOTIFY
 printf "${YELLOW}Instalación de SPOTIFY${NC}\N" 
