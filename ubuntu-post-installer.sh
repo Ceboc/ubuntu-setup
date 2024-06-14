@@ -5,6 +5,14 @@ YELLOW='\033[1;33m'
 CYAN='\033[1;36m'
 NC='\033[0m'
 
+timedatectl set-local-rtc 1
+
+# Desinstalación de Firefox nativo, instalación de versión de Flatpack
+sudo apt remove firefox
+sudo apt purge firefox
+flatpak install flathub org.mozilla.firefox
+
+
 # Instalaciones con apt
 printf "${YELLOW}Instalación de paquetes apt${NC}\N"
 packages=(
@@ -42,7 +50,17 @@ packages=(
 	libncurses5-dev
 	libeigen3-dev
 	libxcb-util-dev
-	cmake)
+	cmake
+	doxygen
+	fftw3
+	fftw3-dev
+	ubuntu-restricted-extras
+	libeigen3-dev
+	libtirpc-dev
+	libncurses5-dev
+	libncursesw5-dev
+	libgc-dev
+)
 sudo apt install ${packages[@]} -y
 
 
@@ -72,11 +90,7 @@ conda install scikit-learn-intelex
 
 # Instalación y configuración de Julia
 printf "${YELLOW}Instalación de JULIA${NC}\N"
-wget https://julialang-s3.julialang.org/bin/linux/x64/1.8/julia-1.8.5-linux-x86_64.tar.gz
-tar -xzf julia-1.* -C $HOME
-mv $HOME/julia-1.* $HOME/julia
-echo "#**** JULIA PATH ****"
-echo "export PATH=${HOME}/julia/bin:${PATH}" >> $HOME/.bashrc
+curl -fsSL https://install.julialang.org | sh --yes
 
 # Instalación de RUST
 printf "${YELLOW}Instalación de RUST${NC}\N"
@@ -86,12 +100,12 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # Instalación de Miktex
 # según lo mostrado en https://miktex.org/download
 printf "${YELLOW}Instalación de MIKTEX${NC}\N"
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D6BC243565B2087BC3F897C9277A7293F59E4889
-echo "deb http://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
+curl -fsSL https://miktex.org/download/key | sudo tee /usr/share/keyrings/miktex-keyring.asc > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.asc] https://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
 sudo apt-get update
 sudo apt-get install miktex
 sudo miktexsetup --shared=yes finish
-sudo initexmf --admin --set-config-value [MPM]AutoInstall=1
+#sudo initexmf --admin --set-config-value [MPM]AutoInstall=1
 
 # Instalación de Asymptote
 # requiere compilación
